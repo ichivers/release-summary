@@ -1,11 +1,15 @@
 {
     "manifestVersion": 1,
     "id": "vsts-extensions-myExtensions",
-    "version": "1.0.37",
-    "name": "Release Summary",
+    "version": "1.0.39",
+    "name": "Release Summary Widget",
     "description": "Widget for displaying all release pipeline environments and the artifact name deployed to them.",
     "publisher": "RetailManagerSolutions",
     "categories": ["Azure Boards"],
+    "tags":[
+        "Dashboard Widget"
+    ],
+    "public": false,
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
@@ -13,7 +17,13 @@
     ],
     "icons": {
         "default": "img/logo.png"
+    },    
+    "content": {
+        "details": {
+            "path": "overview.md"
+        }
     },
+    "repository": "https://github.com/ichivers/release-summary/",
     "demands": ["contribution/ms.vss-dashboards-web.widget-sdk-version-2"],
     "contributions": [
         {
@@ -79,6 +89,9 @@
         },
         {
             "path": "configuration.html", "addressable": true
+        },
+        {
+            "path": "overview.md", "addressable": true
         },
         {
             "path": "sdk", "addressable": true
