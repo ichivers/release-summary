@@ -1,0 +1,62 @@
+.release-summary-container {
+  font-family: "Segoe UI VSS (Regular)", "Segoe UI";
+}
+
+i {
+  padding:8px;
+}
+
+.release-summary-link{
+  text-decoration:none !important;
+}
+
+.release-summary-item {
+  margin: 0px 8px 10px 0px;
+  float: left;
+}
+
+.release-summary-succeeded {
+  background-color: green;
+}
+
+.release-summary-rejected {
+  background-color:red;
+}
+
+.release-summary-partiallySucceeded {
+  background-color: orange;
+}
+
+.release-summary-cancelled {
+  background-color: black;
+}
+
+.release-summary-icon{
+  float:left;
+  color:#fff;
+}
+
+.release-summary-text{
+  float:left;
+  margin-left:5px;
+}
+
+.release-summary-environment {
+  color: #fff;
+  padding: 8px;
+  font-size:13px;
+}
+
+.release-summary-artifact {
+  font-size: 12px;
+  color: #333;
+}
+
+.release-summary-date {
+  font-size: 10px;
+  color: #666;
+}
+
+.release-summary-details {
+  margin: 5px;
+}
