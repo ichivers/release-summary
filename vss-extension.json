@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "vsts-extensions-myExtensions",
-    "version": "1.0.39",
+    "version": "1.0.40",
     "name": "Release Summary Widget",
     "description": "Widget for displaying all release pipeline environments and the artifact name deployed to them.",
     "publisher": "RetailManagerSolutions",
@@ -9,7 +9,7 @@
     "tags":[
         "Dashboard Widget"
     ],
-    "public": false,
+    "public": true,
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
