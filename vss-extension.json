@@ -1,8 +1,8 @@
 {
     "manifestVersion": 1,
-    "id": "vsts-extensions-myExtensions",
-    "version": "1.0.40",
-    "name": "Release Summary Widget",
+    "id": "vsts-extensions-rms-releasesummary",
+    "version": "1.0.69",
+    "name": "Dev - Release Summary Widget",
     "description": "Widget for displaying all release pipeline environments and the artifact name deployed to them.",
     "publisher": "RetailManagerSolutions",
     "categories": ["Azure Boards"],
@@ -34,7 +34,7 @@
                 ".ReleaseSummaryWidget.Configuration"
             ],
             "properties": {
-                "name": "Release Summary",
+                "name": "Dev Release Summary",
                 "description": "Shows all release pipeline environments and deployed artifacts for this project.",
                 "catalogIconUrl": "img/rocket.png",
                 "previewImageUrl": "img/preview.png",                            
@@ -67,6 +67,22 @@
                         {
                             "rowSpan": 4,
                             "columnSpan": 2
+                        },
+                        {
+                            "rowSpan": 2,
+                            "columnSpan": 3
+                        },
+                        {
+                            "rowSpan": 4,
+                            "columnSpan": 3
+                        },
+                        {
+                            "rowSpan": 2,
+                            "columnSpan": 4
+                        },
+                        {
+                            "rowSpan": 4,
+                            "columnSpan": 4
                         }
                     ],
                 "supportedScopes": ["project_team"]

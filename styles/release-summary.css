@@ -1,5 +1,4 @@
 .release-summary-container {
-  font-family: "Segoe UI VSS (Regular)", "Segoe UI";
 }
 
 i {
@@ -12,7 +11,7 @@ i {
 
 .release-summary-item {
   margin: 0px 8px 10px 0px;
-  float: left;
+  width:100%;
 }
 
 .release-summary-succeeded {
@@ -27,13 +26,13 @@ i {
   background-color: orange;
 }
 
-.release-summary-cancelled {
+.release-summary-canceled {
   background-color: black;
 }
 
 .release-summary-icon{
-  float:left;
   color:#fff;
+  height: 25px;
 }
 
 .release-summary-text{
@@ -58,5 +57,6 @@ i {
 }
 
 .release-summary-details {
+  display: flex;
   margin: 5px;
 }

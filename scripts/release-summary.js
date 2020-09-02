@@ -63,10 +63,20 @@ VSS.require(["TFS/Dashboards/WidgetHelpers", "VSS/Authentication/Services"], fun
                                             case "rejected":
                                                 fontAwesome = 'fas fa-times-circle';
                                                 break;
-                                            case "cancelled":
+                                            case "canceled":
                                                 fontAwesome = 'fas fa-stop-circle';
                                                 break;
                                         }
+                                    }
+                                });
+                                var releaseDetails = '';
+                                $.each(data.artifacts, function (i, item) {
+                                    if(Object.values(settings.artifacts).includes(item.definitionReference.definition.id)){
+                                        releaseDetails += "    <div class='release-summary-text'>" +
+                                        "      <div class='release-summary-name'>" + item.definitionReference.definition.name + "</div>" +
+                                        "      <div class='release-summary-artifact'>" + item.definitionReference.version.name + "</div>" +
+                                        "      <div class='release-summary-date'>" + createdOn.toLocaleString('en', options) + "</div>" +
+                                        "    </div>" 
                                     }
                                 });          
                                 var releaseItem = "<div class='release-summary-item' id='" + environmentName + "'>" +
@@ -74,10 +84,9 @@ VSS.require(["TFS/Dashboards/WidgetHelpers", "VSS/Authentication/Services"], fun
                                     "  <div class='release-summary-environment release-summary-" + environmentStatus + "'>" + environmentName + "</div>" +
                                     "  <div class='release-summary-details'>" +
                                     "    <div class='release-summary-icon release-summary-" + environmentStatus + "'><i class='" + fontAwesome + "'></i></div>" +
-                                    "    <div class='release-summary-text'>" +
-                                    "      <div class='release-summary-artifact'>" + data.artifacts[0].definitionReference.version.name + "</div>" +
-                                    "      <div class='release-summary-date'>" + createdOn.toLocaleString('en', options) + "</div>" +
-                                    "    </div>" +
+                                    "    <div class='release-summary-artifacts'>" +
+                                           releaseDetails +
+                                    "    </div>"
                                     "  </div>" +
                                     "</div>" +
                                     "</a>"
