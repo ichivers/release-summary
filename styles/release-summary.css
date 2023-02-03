@@ -60,3 +60,12 @@ i {
   display: flex;
   margin: 5px;
 }
+
+.widget {
+  overflow-y: auto !important;
+}
+
+.release-summary-environment-sub {
+  font-size: 10px;
+  margin: 0px;
+}

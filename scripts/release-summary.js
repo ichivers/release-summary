@@ -34,8 +34,7 @@ VSS.require(["TFS/Dashboards/WidgetHelpers", "VSS/Authentication/Services"], fun
                         $title.text(data.name);
                         $releaseContainer.empty();
                         $.each(data.environments, function (i, item) {
-                            var environmentName = item.name;                            
-                            var createdOn = new Date(data.createdOn);
+                            var environmentName = item.name;                                                        
                             $.ajax({
                                 type: 'get',
                                 url: item.currentRelease.url,
@@ -47,11 +46,13 @@ VSS.require(["TFS/Dashboards/WidgetHelpers", "VSS/Authentication/Services"], fun
                             }).done(function (data) {
                                 var environmentStatus = '';
                                 var fontAwesome = '';         
-                                var releaseUrl = '';                        
+                                var releaseUrl = '';
+                                var createdOn;                        
                                 $.each(data.environments, function(i, item){
                                     if(item.name == environmentName){
                                         environmentStatus = item.status;
                                         releaseUrl = item.release._links.web.href;
+                                        createdOn = new Date(item.deploySteps[item.deploySteps.length - 1].queuedOn)                   
                                         switch(environmentStatus)
                                         {
                                             case "succeeded":
@@ -75,13 +76,15 @@ VSS.require(["TFS/Dashboards/WidgetHelpers", "VSS/Authentication/Services"], fun
                                         releaseDetails += "    <div class='release-summary-text'>" +
                                         "      <div class='release-summary-name'>" + item.definitionReference.definition.name + "</div>" +
                                         "      <div class='release-summary-artifact'>" + item.definitionReference.version.name + "</div>" +
-                                        "      <div class='release-summary-date'>" + createdOn.toLocaleString('en', options) + "</div>" +
+                                        //"      <div class='release-summary-date'>" + createdOn.toLocaleString('en', options) + "</div>" +
                                         "    </div>" 
                                     }
                                 });          
                                 var releaseItem = "<div class='release-summary-item' id='" + environmentName + "'>" +
                                     "<a target='_top' class='release-summary-link' href='" + releaseUrl + "'>" +
-                                    "  <div class='release-summary-environment release-summary-" + environmentStatus + "'>" + environmentName + "</div>" +
+                                    "  <div class='release-summary-environment release-summary-" + environmentStatus + "'>" + environmentName +
+                                    "    <p class='release-summary-environment-sub'>" + createdOn.toLocaleString('en', options) + "</p>" +
+                                    "  </div>" +
                                     "  <div class='release-summary-details'>" +
                                     "    <div class='release-summary-icon release-summary-" + environmentStatus + "'><i class='" + fontAwesome + "'></i></div>" +
                                     "    <div class='release-summary-artifacts'>" +
