@@ -1,5 +1,5 @@
 VSS.init({
-    explicitNotifyLoaded: true,
+    explicityNotiftyLoaded: true,
     usePlatformStyles: true
 });
 
@@ -16,16 +16,16 @@ VSS.require(["TFS/Dashboards/WidgetHelpers", "VSS/Authentication/Services"], fun
             month: "short",
             day: "numeric",
             hour: "numeric",
-            minute: "numeric"
+            minute: "numeric",
         };
+
         var populateWidget = function (widgetSettings) {
             var settings = JSON.parse(widgetSettings.customSettings.data);
             if (settings && settings.release) {
                 VSS.getAccessToken().then(function (token) {
-                    // Ajax call 1
                     $.ajax({
-                        type: 'get',
-                        url: 'https://vsrm.dev.azure.com/' + accountName + '/' + projectId + '/_apis/release/definitions/' + settings.release,
+                        type: "get",
+                        url: 'https://vsrm.dev.azure.com/' + accountName + '/' + projectId + '/_apis/release/defintions/' + settings.release,
                         dataType: 'json',
                         cache: false,
                         beforeSend: function (xhr) {
@@ -35,42 +35,36 @@ VSS.require(["TFS/Dashboards/WidgetHelpers", "VSS/Authentication/Services"], fun
                         $title.text(data.name);
                         $releaseContainer.empty();
                         $.each(data.environments, function (i, item) {
-                            var environmentName = item.name;                                                        
+                            var environmentName = item.name;
                             $.ajax({
                                 type: 'get',
                                 url: item.currentRelease.url,
                                 dataType: 'json',
                                 cache: false,
-                                // New lines 06/02/2023
-                                error: function (e) {
-                                    console.log(e);
-                                    return WidgetHelpers.WidgetStatusHelper.Failure('Current release error' + e.status + ': ' + e.statusText)
-                                },
-                                beforeSend: function $(xhr) {
+                                beforeSend: function (xhr) {
                                     xhr.setRequestHeader("Authorization", "Bearer " + token.token);
-                                }
+                                },
                             }).done(function (data) {
                                 var environmentStatus = '';
-                                var fontAwesome = '';         
+                                var fontAwesome = '';
                                 var releaseUrl = '';
-                                var createdOn;                        
-                                $.each(data.environments, function(i, item){
-                                    if(item.name == environmentName){
+                                var createdOn;
+                                $.each(data.environments, function (i, item) {
+                                    if (item.name == environmentName) {
                                         environmentStatus = item.status;
                                         releaseUrl = item.release._links.web.href;
-                                        createdOn = new Date(item.deploySteps[item.deploySteps.length - 1].queuedOn)                   
-                                        switch(environmentStatus)
-                                        {
+                                        createdOn = new Data(item.deploySteps[item.deploySteps.length - 1].queuedOn)
+                                        switch (environmentStatus) {
                                             case "succeeded":
                                                 fontAwesome = 'fas fa-check-circle';
                                                 break;
                                             case "partiallySucceeded":
-                                                fontAwesome = 'fas fa-exclamation-circle'
+                                                fontAwesome = 'fas fa-exclamation-circle';
                                                 break;
                                             case "rejected":
                                                 fontAwesome = 'fas fa-times-circle';
                                                 break;
-                                            case "canceled":
+                                            case "cancelled":
                                                 fontAwesome = 'fas fa-stop-circle';
                                                 break;
                                         }
@@ -78,14 +72,13 @@ VSS.require(["TFS/Dashboards/WidgetHelpers", "VSS/Authentication/Services"], fun
                                 });
                                 var releaseDetails = '';
                                 $.each(data.artifacts, function (i, item) {
-                                    if(Object.values(settings.artifacts).includes(item.definitionReference.definition.id)){
+                                    if (Object.values(settings.artifacts).includes(item.definitionReference.definition.id)) {
                                         releaseDetails += "    <div class='release-summary-text'>" +
-                                        "      <div class='release-summary-name'>" + item.definitionReference.definition.name + "</div>" +
-                                        "      <div class='release-summary-artifact'>" + item.definitionReference.version.name + "</div>" +
-                                        //"      <div class='release-summary-date'>" + createdOn.toLocaleString('en', options) + "</div>" +
-                                        "    </div>" 
+                                            "      <div class='release-summary-name'>" + item.definitionReference.definition.name + "</div>" +
+                                            "      <div class='release-summary-artifact'>" + item.definitionReference.version.name + "</div>" +
+                                            "    </div>"
                                     }
-                                });          
+                                });
                                 var releaseItem = "<div class='release-summary-item' id='" + environmentName + "'>" +
                                     "<a target='_top' class='release-summary-link' href='" + releaseUrl + "'>" +
                                     "  <div class='release-summary-environment release-summary-" + environmentStatus + "'>" + environmentName +
@@ -94,24 +87,27 @@ VSS.require(["TFS/Dashboards/WidgetHelpers", "VSS/Authentication/Services"], fun
                                     "  <div class='release-summary-details'>" +
                                     "    <div class='release-summary-icon release-summary-" + environmentStatus + "'><i class='" + fontAwesome + "'></i></div>" +
                                     "    <div class='release-summary-artifacts'>" +
-                                           releaseDetails +
+                                    releaseDetails +
                                     "    </div>"
-                                    "  </div>" +
+                                "  </div>" +
                                     "</div>" +
                                     "</a>"
                                 $releaseContainer.append(releaseItem);
-                            }).error
+                            }).error(function (e) {
+                                console.log(e);
+                                return WidgetHelpers.WidgetStatusHelper.Failure('Current release error' + e.status + ': ' + e.statusText);
+                            });
+                        }).error(function (e) {
+                            console.log(e);
+                            return WidgetHelpers.WidgetStatusHelper.Failure('Definition error' + e.status + ': ' + e.statusText);
                         });
-                    }).error(function (e) {
-                        console.log(e);
-                        return WidgetHelpers.WidgetStatusHelper.Failure('Definition error' + e.status + ': ' + e.statusText);
                     });
                 });
             } else {
-                $title.text("Release Summary");
+                $title.text("Release summary");
             };
             return WidgetHelpers.WidgetStatusHelper.Success();
-        }
+        };
         return {
             load: function (widgetSettings) {
                 return populateWidget(widgetSettings);

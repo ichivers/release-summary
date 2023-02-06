@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "vsts-extensions-rms-releasesummary",
-    "version": "1.0.83",
+    "version": "1.0.88",
     "name": "Dev - Release Summary Widget",
     "description": "Widget for displaying all release pipeline environments and the artifact name deployed to them.",
     "publisher": "RetailManagerSolutions",
